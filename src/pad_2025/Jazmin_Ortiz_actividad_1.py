@@ -23,7 +23,7 @@ class Ingestiones():
                 json.dump(datos, archivo, indent=4, ensure_ascii=False)
             print(f"Datos guardados en {ruta_completa}")
         except Exception as e:
-            print("Error al escribir el archivo JSON:", e)
+            print("Error al escribir el archivo JSON:")
         
 # creacion de la instancia 
 ingestion = Ingestiones ()
