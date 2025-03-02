@@ -1,4 +1,4 @@
-name: Jazmin_Ortiz_actividad_1
+name: actividad_1_1
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: write
 
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -19,26 +18,36 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.9.2'
+
+      - name: Actualizar pip globalmente antes de crear el entorno virtual
+        run: python -m pip install --upgrade pip
+
       - name: paso1 - crea entorno virtual
         run: python -m venv venv
-      - name: paso2 - activar entorno virtual
-        run: ./venv/Scripts/activate   
-      - name: paso3 - actualizar pip
+
+      - name: paso2 - Activar entorno virtual e instalar dependencias
+        shell: cmd
         run: |
-          .\venv\Scripts\activate
-          pip install --upgrade pip
-      - name: paso4 - instalar dependencias
+          venv\Scripts\activate
+          pip install -e .
+          pip install requests  
+
+      - name: Verificar paquetes instalados
+        shell: cmd
         run: |
-          .\venv\Scripts\activate
-          pip install -r requirements.txt
-      - name: paso5 - Ejecutar script
+          venv\Scripts\activate
+          pip list
+
+      - name: paso3 - Ejecutar script
+        shell: cmd
         run: |
-          .\venv\Scripts\activate
-          python src/pad_2025/Jazmin_Ortiz_actividad_1.py
+          venv\Scripts\activate
+          python src/pad_2025/Jazmin_actividad_1.py
+
       - name: Commit and Push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Entrega Actividad 1 Jazmin Ortiz
-          commit_user_name: Jazmin ortiz [GitHub Actions]
+          commit_message: Update Test
+          commit_user_name: Jazmin Ortiz [GitHub Actions]
           commit_user_email: jazmin.ortiz@est.iudigital.edu.co
           commit_author: Jazmin Ortiz <jazmin.ortiz@est.iudigital.edu.co>
