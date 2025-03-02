@@ -11,40 +11,36 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repo
+      - name: paso1 - Checkout del repositorio
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: paso2 - Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.9.2'
 
-      - name: Actualizar pip globalmente antes de crear el entorno virtual
+      - name: paso3 - Actualizar pip globalmente antes de crear el entorno virtual
         run: python -m pip install --upgrade pip
 
-      - name: paso1 - crea entorno virtual
+      - name: paso4 - Crear entorno virtual
         run: python -m venv venv
 
-      - name: paso2 - Activar entorno virtual e instalar dependencias
-        shell: cmd
-        run: |
-          venv\Scripts\activate
-          pip install -e .
-          pip install requests  
+      - name: paso5 - Verificar que la carpeta `venv` existe
+        run: dir venv
 
-      - name: Verificar paquetes instalados
-        shell: cmd
-        run: |
-          venv\Scripts\activate
-          pip list
+      - name: paso6 - Instalar dependencias en el entorno virtual
+        run: venv\Scripts\python.exe -m pip install -e .
 
-      - name: paso3 - Ejecutar script
-        shell: cmd
-        run: |
-          venv\Scripts\activate
-          python src/pad_2025/Jazmin_actividad_1.py
+      - name: paso7 - Instalar `requests` (por si no está en `requirements.txt`)
+        run: venv\Scripts\python.exe -m pip install requests
 
-      - name: Commit and Push changes
+      - name: paso8 - Verificar paquetes instalados
+        run: venv\Scripts\python.exe -m pip list
+
+      - name: paso9 - Ejecutar script
+        run: venv\Scripts\python.exe src/pad_2025/Jazmin_actividad_1.py
+
+      - name: paso10 - Commit y push de cambios
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Update Test
